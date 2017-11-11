@@ -1,0 +1,142 @@
+$fundo: #8870FF;
+$vermelho: #E01931;
+$rosa: #E26E67;
+$laranja: #FC6042;
+$amarelo: #EEE657;
+$cinza: #D4D4D4;
+
+/// CSS TRICKS
+/// Mixin to prefix a property
+/// @author Hugo Giraudel
+/// @param {String} $property - Property name
+/// @param {*} $value - Property value
+/// @param {List} $prefixes (()) - List of prefixes to print
+@mixin prefix($property, $value, $prefixes: ()) {
+  @each $prefix in $prefixes {
+    #{'-' + $prefix + '-' + $property}: $value;
+  }
+  // Output standard non-prefixed declaration
+  #{$property}: $value;
+}
+
+%espacamento{
+  padding:20px 0px;
+}
+
+body{
+  font-family: helvetica;
+  background:$fundo;
+}
+
+.container{
+  background:#fafafa;
+  width:900px;
+  max-width:90%;
+  margin: 0 auto;
+  height:730px;
+  text-align:center;
+  padding: 10px 40px;
+}
+
+.linhas{
+  width:100%;
+  height:20px;
+  background:$cinza;
+  margin-bottom:10px;
+}
+
+.sessao-de-fotos{
+  @extend %espacamento;
+}
+
+.foto{
+  width:23.3%;
+  height:200px;
+  display:inline-block;
+  &:nth-child(1n+1){
+    background:$rosa;
+  }
+  &:nth-child(1n+2){
+    background:$cinza;
+  }
+  &:nth-child(1n+3){
+    background:$amarelo;
+  }
+  &:nth-child(1n+4){
+    background:$laranja;
+  }
+}
+
+.sessao-de-colunas{
+  @extend %espacamento;
+}
+
+.coluna{
+  width:49.33%;
+  height:150px;
+  background:$cinza;
+  display:inline-block;
+}
+
+
+// PASSARINHO -------------------------------
+
+@mixin movimento-passarinho($tempo){
+    @keyframes movimento{
+      0%{
+        left:-50%;
+      }
+      100%{
+        left:110%;
+      }
+    }
+    @include prefix(animation, movimento $tempo infinite, moz webkit o);
+}
+
+.caixa-passarinho{
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  top: 10px;
+  @include movimento-passarinho(8s);
+  &:nth-child(2){
+    top: 35px;
+    @include movimento-passarinho(13s);
+  }
+  &:nth-child(3){
+    top: 50px;
+    @include movimento-passarinho(3s);
+  }
+  &:nth-child(4){
+    top: 50px;
+    @include movimento-passarinho(5s);
+  }
+}
+
+@mixin passarinho_animado{
+  @-webkit-keyframes animapassaro{
+    0%{
+      background-position: 0px 0px;
+    }
+    100%{
+      background-position: 0px -96px;
+    }
+  }
+  @keyframes animapassaro{
+    0%{
+      background-position: 0px 0px;
+    }
+    100%{
+      background-position: 0px -96px;
+    }
+  }
+  @include prefix(animation, animapassaro 0.3s steps(4) infinite, webkit moz o);
+}
+
+.passarinho{
+  width: 34px;
+  height: 24px;
+  background-image:url('../img/bird.png');
+  @include passarinho_animado;
+  z-index:10px;
+}
